@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background: #dde1e7;
+        }
+        :root{
+            --rotation:30;
+        }
+        .container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+        .clock{
+            height:200px;
+            width: 200px;
+            background: #dde1e7;
+            box-shadow: inset -5px -5px 10px darkgoldenrod,
+                        inset 5px 5px 10px darkgoldenrod;
+            border-radius: 50%;
+            background-image: url('download.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .hr{
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            background-color: black;
+            height: 9%;
+            width: 12px;
+            transform-origin: bottom;
+            transform: translate(-8px) rotate(calc(var(--rotation) * 1deg));
+            border: 1px solid green;
+            border-top-left-radius: 50%;
+            border-top-right-radius: 50%;
+            z-index: 10;
+        }
+        .min{
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            background-color: black;
+            height: 12%;
+            width: 10px;
+            transform-origin: bottom;
+            transform: translate(-6px) rotate(calc(var(--rotation) * 1deg));
+            border: 1px solid white;
+            border-top-left-radius: 25%;
+            border-top-right-radius: 25%;
+        }
+        .sec{
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            background-color: red;
+            height: 13%;
+            width: 3px;
+            transform-origin: bottom;
+            transform: translate(-2px) rotate(calc(var(--rotation) * 1deg));
+            border: 1px solid black;
+        } 
+         .clock::before{
+            content: "";
+            display: block;
+            background: black;
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            z-index: 100000;
+            border: 2px solid darkblue;
+            z-index: 20;
+            border-radius: 50%;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <div class="container">
+        <div class="clock">
+            <div class="hr" hr-hand></div>
+            <div class="min" min-hand></div>
+            <div class="sec" sec-hand></div>
+        </div>
+    </div>
+    <script>
+
+        setInterval(setClock,1000)
+        const secHand= document.querySelector('[sec-hand]');
+        const minHand= document.querySelector('[min-hand]');
+        const hrHand= document.querySelector('[hr-hand]');
+        function setClock(){
+            const curr_date=new Date();
+            const s=curr_date.getSeconds() /60;
+            const m= (s+ curr_date.getMinutes()) / 60;
+            const h=(m+curr_date.getHours()) / 12;
+            
+            setRotation(secHand,s)
+            setRotation(minHand,m)
+            setRotation(hrHand,h)
+        }
+        function setRotation(hand,ratio){
+            hand.style.setProperty('--rotation', ratio * 360);
+        }
+
+    </script>
+</body>
+</html>
